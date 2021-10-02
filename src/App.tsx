@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {initializeApp} from "firebase/app"
-import {doc, getDoc, getFirestore, onSnapshot} from "firebase/firestore"
+import {watchForEvents} from "./firebase/event.db";
 
-const firebaseApp = initializeApp({
+initializeApp({
   apiKey: "AIzaSyDK1aSZuHKFhLADbEuSjrLDmU7owQpngZc",
   authDomain: "test-fb010.firebaseapp.com",
   projectId: "test-fb010",
@@ -13,20 +13,10 @@ const firebaseApp = initializeApp({
   appId: "1:691953428692:web:be066ee059f88a94f1b341",
   measurementId: "G-908G4Y1F11"
 });
+watchForEvents()
 
 
 function App() {
-  const [title, setTitle] = useState('');
-
-  useEffect(() => {
-    const db = getFirestore();
-    const firstRef = doc(db, "test", "first");
-    getDoc(firstRef).then(document => console.log(document.data()));
-
-    onSnapshot(firstRef, (doc) => setTitle(doc.data().title))
-  }, [])
-
-
   return (
     <div className="App">
       <header className="App-header">
