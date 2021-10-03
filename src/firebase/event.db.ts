@@ -1,4 +1,7 @@
 import {onSnapshot, collection, getFirestore} from "firebase/firestore";
+import {addEventsState, addEventState, updateEventState} from "../redux/events.reducer";
+import {globalStore} from "../redux/store";
+import {EventModel} from "../models/event.model";
 
 let isFirstTimeEvents = true;
 
@@ -6,16 +9,16 @@ export function watchForEvents() {
     const db = getFirestore();
     onSnapshot(collection(db, "events"), events => {
         if (isFirstTimeEvents) {
+            initialLoadEvents(events.docs.map(d => toEventModel(d)));
             isFirstTimeEvents = false;
             return;
         }
 
         events.docChanges().forEach((change) => {
             if (change.type === "added") {
-                console.log("added: ", change.doc.data());
-            }
+                globalStore.dispatch(addEventState(toEventModel(change.doc))); }
             if (change.type === "modified") {
-                console.log("modified: ", change.doc.data());
+                globalStore.dispatch(updateEventState(toEventModel(change.doc)));
             }
             if (change.type === "removed") {
                 console.log("removed: ", change.doc.data());
@@ -25,7 +28,7 @@ export function watchForEvents() {
 }
 
 function initialLoadEvents(events) {
-    // todo: save event to redux
+    globalStore.dispatch(addEventsState(events));
 }
 
 
@@ -35,4 +38,8 @@ export function addNewEvent() {
 
 export function updateEvent(event) {
 
+}
+
+function toEventModel(firebaseDoc):EventModel {
+    return {...firebaseDoc.data(), id: firebaseDoc.id};
 }

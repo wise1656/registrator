@@ -1,10 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
-import eventReducer from "./event.reducer";
+import eventReducer from "./events.reducer";
 
 export const globalStore = configureStore({
     reducer: {
-        event: eventReducer
-    }
+        events: eventReducer
+    },
+    devTools: true
 })
 
 export type RootState = ReturnType<typeof globalStore.getState>

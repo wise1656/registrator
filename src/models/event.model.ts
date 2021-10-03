@@ -1,7 +1,13 @@
 export interface EventModel {
-    id: number
+    id: string
     title: string
     description: string
-    startDate: number
-    endData: number
+    timetable: TimetableItemModel[]
+    startDate: string
+    endDate?: string
+}
+
+export interface TimetableItemModel {
+    time: string
+    title: string
 }

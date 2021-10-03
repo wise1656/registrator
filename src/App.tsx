@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
 import {initializeApp} from "firebase/app"
 import {watchForEvents} from "./firebase/event.db";
+import {Event} from "./components/event";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCurrentEvent} from "./redux/events.selectors";
+import {openEvent} from "./redux/events.reducer";
 
 initializeApp({
   apiKey: "AIzaSyDK1aSZuHKFhLADbEuSjrLDmU7owQpngZc",
@@ -17,23 +20,18 @@ watchForEvents()
 
 
 function App() {
+  const event = useSelector(selectCurrentEvent);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(openEvent('HlUIXyGoJp3rWs9m1k6T'));
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>{title}</h1>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {event &&
+        <Event event={event} />
+      }
     </div>
   );
 }
