@@ -4,8 +4,8 @@ import cn from "classnames"
 
 
 export function Event({event}: {event: EventModel}) {
-    return <div className="bg-green-400 h-screen flex p-2 justify-center">
-        <div className="text-left bg-white rounded w-full max-w-3xl">
+    return <div className="bg-leaf h-screen flex p-5 justify-center sm:p-2">
+        <div className="text-left bg-white rounded w-full max-w-3xl bg-opacity-95 border-2 border-gray-700">
             <Title title={event.title}/>
             <DateOfEvent startDate={event.startDate} endDate={event.endDate}/>
             <Description description={event.description}/>
