@@ -1,3 +1,4 @@
 import {RootState} from "./store";
 
-export const selectCurrentEvent = (state: RootState) => state.events.events[state.events.currentEvent];
+export const selectAllEvents = (state: RootState) => Object.values(state.events.events);
+export const selectEvent = (eventId: string) => (state: RootState) => state.events.events[eventId];

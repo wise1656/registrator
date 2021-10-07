@@ -3,12 +3,10 @@ import {EventModel} from "../models/event.model";
 
 export interface EventsState {
     events: {[id: string]: EventModel}
-    currentEvent: string
 }
 
 const initialState: EventsState = {
     events: {},
-    currentEvent: null
 }
 
 export const eventSlice = createSlice({
@@ -27,15 +25,9 @@ export const eventSlice = createSlice({
         deleteEventState: (state, {payload}: PayloadAction<string>) => {
             delete state.events[payload];
         },
-        openEvent: (state, {payload}: PayloadAction<string>) => {
-            state.currentEvent = payload;
-        },
-        closeEvent: (state) => {
-            state.currentEvent = null;
-        },
     }
 })
 
-export const { addEventsState, addEventState, updateEventState, deleteEventState, openEvent, closeEvent } = eventSlice.actions
+export const { addEventsState, addEventState, updateEventState, deleteEventState } = eventSlice.actions
 
 export default eventSlice.reducer
