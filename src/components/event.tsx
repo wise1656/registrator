@@ -4,24 +4,31 @@ import cn from "classnames"
 import {useSelector} from "react-redux";
 import {Link, Redirect, useParams} from "react-router-dom";
 import {selectEvent} from "../redux/events.selectors";
+import {EditEvent} from "./edit-event";
 
 
 export function Event() {
     const { id } = useParams<{id: string}>();
-    const event = useSelector(selectEvent(id))
+    const event = useSelector(selectEvent(id));
+    const [edit, setEdit] = useState(false);
 
     if (!event)
         return <Redirect to="/"/>;
 
     return <div className="bg-leaf h-screen flex p-5 justify-center sm:p-2">
         <div className="text-left bg-white rounded w-full max-w-3xl bg-opacity-95 border-2 border-gray-700">
-            <div className="flex">
-                <Link className="text-3xl m-2 cursor-pointer font-bold text-green-600" to="/">&lt;</Link>
-                <Title title={event.title}/>
-            </div>
-            <DateOfEvent className="mb-2" startDate={event.startDate} endDate={event.endDate}/>
-            <Description description={event.description}/>
-            <Timetable timetable={event.timetable}/>
+            {edit
+                ? <EditEvent event={event} onClose={() => setEdit(false)}/>
+                : <>
+                <div className="flex">
+                    <Link className="text-3xl m-2 cursor-pointer font-bold text-green-600" to="/">&lt;</Link>
+                    <Title title={event.title}/>
+                    <div className="text-gray-400 text-sm mt-2 ml-2 cursor-pointer" onClick={() => setEdit(true)}>редактировать</div>
+                </div>
+                <DateOfEvent className="mb-2" startDate={event.startDate} endDate={event.endDate}/>
+                <Description description={event.description}/>
+                <Timetable timetable={event.timetable}/>
+            </>}
         </div>
     </div>
 }
