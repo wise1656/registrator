@@ -5,6 +5,8 @@ export interface EventModel {
     timetable: TimetableItemModel[]
     startDate: string
     endDate?: string
+    iamParticipate?: boolean
+    iamEditor?: boolean
 }
 
 export interface TimetableItemModel {

@@ -25,9 +25,13 @@ export const eventSlice = createSlice({
         deleteEventState: (state, {payload}: PayloadAction<string>) => {
             delete state.events[payload];
         },
+        addMeAsParticipate: (state, {payload: {eventId, takePart}}: PayloadAction<{eventId: string, takePart: boolean}>) => {
+            const event = state.events[eventId];
+            if (event) event.iamParticipate = takePart;
+        }
     }
 })
 
-export const { addEventsState, addEventState, updateEventState, deleteEventState } = eventSlice.actions
+export const { addEventsState, addEventState, updateEventState, deleteEventState, addMeAsParticipate } = eventSlice.actions
 
 export default eventSlice.reducer

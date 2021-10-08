@@ -1,4 +1,4 @@
-import {onSnapshot, collection, getFirestore} from "firebase/firestore";
+import {onSnapshot, collection, getFirestore, updateDoc, doc} from "firebase/firestore";
 import {addEventsState, addEventState, updateEventState} from "../redux/events.reducer";
 import {globalStore} from "../redux/store";
 import {EventModel} from "../models/event.model";
@@ -32,12 +32,19 @@ function initialLoadEvents(events) {
 }
 
 
-export function addNewEvent() {
+export function addNewEventDb() {
     // todo
 }
 
-export function updateEvent(event) {
-
+export async function updateEventDb(event: EventModel) {
+    const db = getFirestore();
+    await updateDoc(doc(db, 'events', event.id), {
+        title: event.title,
+        description: event.description,
+        timetable: event.timetable,
+        startDate: event.startDate,
+        endDate: event.endDate
+    })
 }
 
 function toEventModel(firebaseDoc):EventModel {

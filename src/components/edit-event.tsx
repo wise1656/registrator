@@ -1,7 +1,10 @@
 import {EventModel, TimetableItemModel} from "../models/event.model";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {updateEventState} from "../redux/events.reducer";
+import {ButtonPrimary, ButtonSecondary} from "./button";
+import {updateEvent} from "../redux/events.actions";
+
+
 
 export function EditEvent({event, onClose}: {event: EventModel, onClose: () => void}) {
     const [updatedEvent, setUpdatedEvent] = useState({...event, timetable: TimetableToText(event.timetable)});
@@ -9,18 +12,23 @@ export function EditEvent({event, onClose}: {event: EventModel, onClose: () => v
 
     function save() {
         onClose();
-        dispatch(updateEventState({...event, timetable: TextToTimetable(updatedEvent.timetable)}));
+        dispatch(updateEvent({...updatedEvent, timetable: TextToTimetable(updatedEvent.timetable)}));
     }
 
     return <div className="p-3">
-        <EditField label="Заголовок" value={updatedEvent.title} onChange={val => setUpdatedEvent(e => ({...e, title: val}))}/>
-        <EditField label="Описание" area value={updatedEvent.description} onChange={val => setUpdatedEvent(e => ({...e, description: val}))}/>
-        <EditField label="Расписание" area value={updatedEvent.timetable} onChange={val => setUpdatedEvent(e => ({...e, timetable: val}))}/>
-        <EditField label="Дата начала" value={updatedEvent.startDate} onChange={val => setUpdatedEvent(e => ({...e, startDate: val}))}/>
-        <EditField label="Дата окончания" value={updatedEvent.endDate} onChange={val => setUpdatedEvent(e => ({...e, endDate: val}))}/>
+        <EditField label="Заголовок" value={updatedEvent.title}
+                   onChange={val => setUpdatedEvent(e => ({...e, title: val}))}/>
+        <EditField label="Описание" area value={updatedEvent.description}
+                   onChange={val => setUpdatedEvent(e => ({...e, description: val}))}/>
+        <EditField label="Расписание" area value={updatedEvent.timetable}
+                   onChange={val => setUpdatedEvent(e => ({...e, timetable: val}))}/>
+        <EditField label="Дата начала" value={updatedEvent.startDate}
+                   onChange={val => setUpdatedEvent(e => ({...e, startDate: val}))}/>
+        <EditField label="Дата окончания" value={updatedEvent.endDate}
+                   onChange={val => setUpdatedEvent(e => ({...e, endDate: val}))}/>
         <div className="flex mt-3 justify-end">
-            <a className="cursor-pointer p-1 px-3 border rounded mr-2 bg-blue-300" onClick={save}>Сохранить</a>
-            <a className="cursor-pointer p-1 px-3 border rounded bg-red-300" onClick={onClose}>Отмена</a>
+            <ButtonPrimary className="mr-2" onClick={save}>Сохранить</ButtonPrimary>
+            <ButtonSecondary  onClick={onClose}>Отмена</ButtonSecondary>
         </div>
     </div>
 }

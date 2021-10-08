@@ -10,7 +10,7 @@ export function EventsList() {
     return <div className="bg-blue-200 h-screen flex justify-center items-top">
         <div className="bg-blue-50 max-w-3xl w-full p-3 rounded">
             {events.map(event =>
-                <EventInList event={event}/>
+                <EventInList event={event} key={event.id}/>
             )}
         </div>
     </div>
